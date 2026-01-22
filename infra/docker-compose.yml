@@ -1,0 +1,18 @@
+name: airbnb-clone
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: airbnb_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: airbnb
+      POSTGRES_USER: airbnb_user
+      POSTGRES_PASSWORD: airbnb_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - airbnb_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  airbnb_postgres_data:
