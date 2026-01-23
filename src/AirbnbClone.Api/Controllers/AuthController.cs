@@ -50,6 +50,31 @@ public class AuthController : ControllerBase
         });
     }
 
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] AuthLoginRequest request)
+    {
+        var email = request.Email.Trim().ToLowerInvariant();
+
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(request.Password))
+        return BadRequest(new { message = "Email and password are required." });
+
+        var user = await _db.Users.SingleOrDefaultAsync(u => u.Email == email);
+        if (user is null)
+            return Unauthorized(new { message = "Invalid credentials." });
+
+        var passwordHash = Sha256(request.Password);
+            if (!string.Equals(user.PasswordHash, passwordHash, StringComparison.Ordinal))
+            return Unauthorized(new { message = "Invalid credentials." });
+
+        return Ok(new
+    {
+            user.Id,
+            user.Email,
+            user.CreatedAtUtc
+        });
+    }
+
+
     private static string Sha256(string input)
     {
         using var sha = SHA256.Create();
