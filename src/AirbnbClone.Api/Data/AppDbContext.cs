@@ -31,5 +31,31 @@ public class AppDbContext : DbContext
             b.Property(x => x.CreatedAtUtc)
                 .IsRequired();
         });
+
+        modelBuilder.Entity<Listing>(b =>
+        {
+            b.HasKey(x => x.Id);
+
+            b.Property(x => x.Title)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            b.Property(x => x.City)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            b.Property(x => x.PricePerNight)
+                .IsRequired();
+
+            b.Property(x => x.MaxGuests)
+                .IsRequired();
+
+            b.Property(x => x.CreatedAtUtc)
+                .IsRequired();
+
+            b.HasIndex(x => x.City);
+            b.HasIndex(x => x.PricePerNight);
+        });
     }
+
 }
