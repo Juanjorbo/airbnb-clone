@@ -78,4 +78,33 @@ public class BookingsController : ControllerBase
             booking.Status
         });
     }
+
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMyBookings()
+    {
+        var guestIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (guestIdString is null)
+            return Unauthorized();
+
+        var guestId = Guid.Parse(guestIdString);
+
+        var bookings = await _db.Bookings
+            .AsNoTracking()
+            .Where(b => b.GuestId == guestId)
+            .OrderByDescending(b => b.CreatedAtUtc)
+            .Select(b => new
+            {
+                b.Id,
+                b.ListingId,
+                b.CheckIn,
+                b.CheckOut,
+                b.Status,
+                b.CreatedAtUtc
+            })
+            .ToListAsync();
+
+        return Ok(bookings);
+    }
+
 }
