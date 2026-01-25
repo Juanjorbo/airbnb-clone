@@ -15,34 +15,121 @@ type ListingsResponse = {
   items: ListingItem[];
 };
 
+function Header() {
+  return (
+    <header className="sticky top-0 z-10 bg-white/90 backdrop-blur border-b">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold text-white"
+               style={{ background: "var(--airbnb-red)" }}>
+            A
+          </div>
+          <span className="font-semibold tracking-tight">airbnb</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-2 rounded-full border px-3 py-2 shadow-sm hover:shadow transition">
+          <span className="text-sm font-medium">Cualquier lugar</span>
+          <span className="h-5 w-px bg-gray-200" />
+          <span className="text-sm font-medium">Cualquier semana</span>
+          <span className="h-5 w-px bg-gray-200" />
+          <span className="text-sm text-gray-500">¿Cuántos?</span>
+          <button
+            className="ml-2 h-8 w-8 rounded-full text-white grid place-items-center"
+            style={{ background: "var(--airbnb-red)" }}
+            aria-label="Search"
+          >
+            🔍
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button className="text-sm font-medium px-3 py-2 rounded-full hover:bg-gray-100">
+            Pon tu casa en Airbnb
+          </button>
+          <button className="rounded-full border px-3 py-2 shadow-sm hover:shadow transition">
+            ☰ 👤
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function SearchPill({ total }: { total: number }) {
+  return (
+    <div className="md:hidden max-w-6xl mx-auto px-6 pt-5">
+      <div className="rounded-2xl border shadow-sm p-4 flex items-center gap-3">
+        <div className="h-10 w-10 rounded-full grid place-items-center text-white"
+             style={{ background: "var(--airbnb-red)" }}>
+          🔍
+        </div>
+        <div className="flex-1">
+          <div className="font-medium">¿A dónde?</div>
+          <div className="text-sm text-gray-500">
+            {total} alojamientos · Cualquier fecha · Invitados
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ListingCard({ l }: { l: ListingItem }) {
+  return (
+    <div className="group">
+      <div className="rounded-2xl overflow-hidden bg-gray-100 aspect-[4/3]">
+        {/* Placeholder image */}
+        <div className="h-full w-full grid place-items-center text-gray-400 text-sm">
+          Imagen
+        </div>
+      </div>
+
+      <div className="mt-3 flex items-start justify-between gap-2">
+        <div>
+          <div className="font-medium leading-tight">{l.title}</div>
+          <div className="text-sm text-gray-500">{l.city}</div>
+          <div className="text-sm mt-1">
+            <span className="font-semibold">{l.pricePerNight}€</span>{" "}
+            <span className="text-gray-600">noche</span>
+            <span className="text-gray-400"> · </span>
+            <span className="text-gray-600">{l.maxGuests} huéspedes</span>
+          </div>
+        </div>
+
+        <div className="text-sm text-gray-700 flex items-center gap-1">
+          ⭐ <span>4.8</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function Home() {
   const data = await apiGet<ListingsResponse>("/listings");
 
   return (
-    <main className="max-w-5xl mx-auto p-6">
-      <h1 className="text-2xl font-semibold">Airbnb Clone</h1>
-      <p className="text-sm text-gray-600 mt-1">
-        Total listings: {data.total}
-      </p>
+    <main>
+      <Header />
+      <SearchPill total={data.total} />
 
-      <div className="grid gap-4 mt-6 sm:grid-cols-2 lg:grid-cols-3">
-        {data.items.map((l) => (
-          <div key={l.id} className="rounded-xl border p-4">
-            <div className="font-medium">{l.title}</div>
-            <div className="text-sm text-gray-600">{l.city}</div>
-            <div className="mt-2 text-sm">
-              <span className="font-semibold">{l.pricePerNight}€</span> / noche ·{" "}
-              {l.maxGuests} huéspedes
-            </div>
-          </div>
-        ))}
+      <section className="max-w-6xl mx-auto px-6 py-8">
+        <div className="flex items-center justify-between">
+          <h1 className="text-lg font-semibold">Alojamientos</h1>
+          <div className="text-sm text-gray-500">{data.total} resultados</div>
+        </div>
+
+        <div className="grid gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {data.items.map((l) => (
+            <ListingCard key={l.id} l={l} />
+          ))}
+        </div>
 
         {data.items.length === 0 && (
-          <div className="text-sm text-gray-600">
-            No hay listings todavía. Crea uno desde Swagger y vuelve a refrescar.
+          <div className="text-sm text-gray-600 mt-6">
+            No hay listings todavía. Crea uno desde Swagger y refresca.
           </div>
         )}
-      </div>
+      </section>
     </main>
   );
 }
