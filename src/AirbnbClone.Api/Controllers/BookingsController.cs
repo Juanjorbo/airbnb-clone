@@ -107,4 +107,36 @@ public class BookingsController : ControllerBase
         return Ok(bookings);
     }
 
+    [Authorize]
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Cancel(Guid id)
+    {
+        var guestIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (guestIdString is null)
+            return Unauthorized();
+
+        var guestId = Guid.Parse(guestIdString);
+
+        var booking = await _db.Bookings.SingleOrDefaultAsync(b => b.Id == id);
+        if (booking is null)
+            return NotFound(new { message = "Booking not found." });
+
+        // Solo el dueño de la reserva puede cancelar
+        if (booking.GuestId != guestId)
+            return Forbid();
+
+        // Solo se cancela si está Pending
+        if (booking.Status != BookingStatus.Pending)
+            return Conflict(new { message = "Only pending bookings can be cancelled." });
+
+        booking.Status = BookingStatus.Cancelled;
+        await _db.SaveChangesAsync();
+
+        return Ok(new
+        {
+            booking.Id,
+            booking.Status
+        });
+    }
+
 }

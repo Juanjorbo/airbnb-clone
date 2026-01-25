@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AirbnbClone.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b27e81cce44d8d85d4e356c403a889e2c762e074")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d1dfec48420dc9264cdde03791531b41124f104")]
 [assembly: System.Reflection.AssemblyProductAttribute("AirbnbClone.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AirbnbClone.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
