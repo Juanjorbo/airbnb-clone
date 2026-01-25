@@ -2,6 +2,10 @@ using AirbnbClone.Api.Contracts;
 using AirbnbClone.Api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AirbnbClone.Api.Domain;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+
 
 namespace AirbnbClone.Api.Controllers;
 
@@ -19,6 +23,7 @@ public class ListingsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Search([FromQuery] ListingsSearchQuery query)
     {
+        
         var q = _db.Listings.AsNoTracking().AsQueryable();
 
         // Filtro por ciudad
@@ -82,4 +87,44 @@ public class ListingsController : ControllerBase
         });
     }
 
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateListingRequest request)
+    {
+        var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userIdString is null)
+            return Unauthorized();
+
+        var hostId = Guid.Parse(userIdString);
+
+        if (string.IsNullOrWhiteSpace(request.Title) ||
+            string.IsNullOrWhiteSpace(request.City) ||
+            request.PricePerNight <= 0 ||
+            request.MaxGuests <= 0)
+        {
+            return BadRequest(new { message = "Invalid listing data." });
+        }
+
+        var listing = new Listing
+        {
+            HostId = hostId,
+            Title = request.Title.Trim(),
+            City = request.City.Trim(),
+            PricePerNight = request.PricePerNight,
+            MaxGuests = request.MaxGuests,
+            CreatedAtUtc = DateTime.UtcNow
+        };
+
+        _db.Listings.Add(listing);
+        await _db.SaveChangesAsync();
+
+        return Created($"/listings/{listing.Id}", new
+        {
+            listing.Id,
+            listing.Title,
+            listing.City,
+            listing.PricePerNight,
+            listing.MaxGuests
+        });
+    }
 }
