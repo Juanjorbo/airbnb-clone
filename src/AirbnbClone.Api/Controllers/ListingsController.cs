@@ -127,4 +127,33 @@ public class ListingsController : ControllerBase
             listing.MaxGuests
         });
     }
+
+    [Authorize]
+    [HttpGet("me")]
+    public async Task<IActionResult> GetMyListings()
+    {
+        var hostIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (hostIdString is null)
+            return Unauthorized();
+
+        var hostId = Guid.Parse(hostIdString);
+
+        var items = await _db.Listings
+            .AsNoTracking()
+            .Where(x => x.HostId == hostId)
+            .OrderByDescending(x => x.CreatedAtUtc)
+            .Select(x => new
+            {
+                x.Id,
+                x.Title,
+                x.City,
+                x.PricePerNight,
+                x.MaxGuests,
+                x.CreatedAtUtc
+            })
+            .ToListAsync();
+
+        return Ok(items);
+    }
+
 }
