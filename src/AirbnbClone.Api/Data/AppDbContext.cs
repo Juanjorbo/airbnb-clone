@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Listing> Listings => Set<Listing>();
+    public DbSet<Booking> Bookings => Set<Booking>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,6 +36,8 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Listing>(b =>
         {
+            b.ToTable("Listings");
+
             b.HasKey(x => x.Id);
 
             b.Property(x => x.Title)
@@ -57,6 +60,24 @@ public class AppDbContext : DbContext
             b.HasIndex(x => x.City);
             b.HasIndex(x => x.PricePerNight);
         });
-    }
 
+        modelBuilder.Entity<Booking>(b =>
+        {
+            b.ToTable("Bookings");
+            b.HasKey(x => x.Id);
+
+            b.Property(x => x.ListingId).IsRequired();
+            b.Property(x => x.GuestId).IsRequired();
+
+            b.Property(x => x.CheckIn).IsRequired();
+            b.Property(x => x.CheckOut).IsRequired();
+
+            b.Property(x => x.Status).IsRequired();
+            b.Property(x => x.CreatedAtUtc).IsRequired();
+
+            b.HasIndex(x => x.ListingId);
+            b.HasIndex(x => x.GuestId);
+            b.HasIndex(x => new { x.ListingId, x.CheckIn, x.CheckOut });
+        });
+    }
 }
