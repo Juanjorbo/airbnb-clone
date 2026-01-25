@@ -156,4 +156,45 @@ public class ListingsController : ControllerBase
         return Ok(items);
     }
 
+    [Authorize]
+    [HttpGet("{id:guid}/bookings")]
+    public async Task<IActionResult> GetBookingsForListing(Guid id)
+    {
+        var hostIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (hostIdString is null)
+            return Unauthorized();
+
+        var hostId = Guid.Parse(hostIdString);
+
+        // Comprueba que el listing existe y es tuyo
+        var listing = await _db.Listings
+            .AsNoTracking()
+            .SingleOrDefaultAsync(x => x.Id == id);
+
+        if (listing is null)
+            return NotFound(new { message = "Listing not found." });
+
+        if (listing.HostId != hostId)
+            return Forbid();
+
+        // Obtiene la reservas de ese listing
+        var bookings = await _db.Bookings
+            .AsNoTracking()
+            .Where(b => b.ListingId == id)
+            .OrderByDescending(b => b.CreatedAtUtc)
+            .Select(b => new
+            {
+                b.Id,
+                b.GuestId,
+                b.CheckIn,
+                b.CheckOut,
+                b.Status,
+                b.CreatedAtUtc
+            })
+            .ToListAsync();
+
+        return Ok(bookings);
+    }
+
+
 }
