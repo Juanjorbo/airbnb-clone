@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 
+
 namespace AirbnbClone.Api.Controllers;
 
 [ApiController]
@@ -196,5 +197,27 @@ public class ListingsController : ControllerBase
         return Ok(bookings);
     }
 
+    [AllowAnonymous]
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var item = await _db.Listings
+            .AsNoTracking()
+            .Where(x => x.Id == id)
+            .Select(x => new
+            {
+                x.Id,
+                x.Title,
+                x.City,
+                x.PricePerNight,
+                x.MaxGuests
+            })
+            .SingleOrDefaultAsync();
+
+        if (item is null)
+            return NotFound(new { message = "Listing not found." });
+
+        return Ok(item);
+    }
 
 }
