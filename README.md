@@ -74,6 +74,7 @@ airbnb-clone/
 - Cards with image, rating and price  
 - Real connection to the API  
 - Mobile + desktop design  
+- Listing detail page with dynamic routing (`/listings/[id]`)
 
 ---
 
@@ -187,7 +188,7 @@ Full-Stack Developer
 
 ## 📝 Roadmap
 
-- Listing detail page `/listings/[id]`  
+- Listing detail page `/listings/[id]` (DONE) 
 - Booking system with calendar  
 - Host booking management  
 - Real image uploads  
