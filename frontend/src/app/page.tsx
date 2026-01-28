@@ -82,8 +82,27 @@ function ListingCard({ l }: { l: ListingItem }) {
   );
 }
 
-export default async function Home() {
-  const data = await apiGet<ListingsResponse>("/listings");
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
+  const city = typeof searchParams?.city === "string" ? searchParams.city : "";
+  const guests = typeof searchParams?.guests === "string" ? searchParams.guests : "";
+  const minPrice = typeof searchParams?.minPrice === "string" ? searchParams.minPrice : "";
+  const maxPrice = typeof searchParams?.maxPrice === "string" ? searchParams.maxPrice : "";
+  const sort = typeof searchParams?.sort === "string" ? searchParams.sort : "";
+
+  const qs = new URLSearchParams();
+  if (city) qs.set("city", city);
+  if (guests) qs.set("guests", guests);
+  if (minPrice) qs.set("minPrice", minPrice);
+  if (maxPrice) qs.set("maxPrice", maxPrice);
+  if (sort) qs.set("sort", sort);
+
+  const url = `/listings${qs.toString() ? `?${qs.toString()}` : ""}`;
+  const data = await apiGet<ListingsResponse>(url);
+
 
   return (
     <main className="bg-white">

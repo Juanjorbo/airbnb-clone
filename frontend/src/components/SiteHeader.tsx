@@ -1,3 +1,6 @@
+import SearchBarClient from "@/src/components/SearchBarClient";
+
+
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 bg-white border-b">
@@ -44,36 +47,7 @@ export default function SiteHeader() {
 
         {/* Search bar row (desktop like Airbnb) */}
         <div className="pb-4 hidden md:flex justify-center">
-          <div className="w-full max-w-3xl rounded-full border bg-white shadow-md px-6 py-3 flex items-center gap-6">
-            <div className="flex-1">
-              <div className="text-xs font-semibold">On?</div>
-              <div className="text-sm text-gray-500">Cerca destinacions</div>
-            </div>
-
-            <div className="h-8 w-px bg-gray-200" />
-
-            <div className="flex-1">
-              <div className="text-xs font-semibold">Dates</div>
-              <div className="text-sm text-gray-500">Afegeix les dates</div>
-            </div>
-
-            <div className="h-8 w-px bg-gray-200" />
-
-            <div className="flex-1 flex items-center justify-between gap-3">
-              <div>
-                <div className="text-xs font-semibold">Viatgers</div>
-                <div className="text-sm text-gray-500">Afegeix viatgers</div>
-              </div>
-
-              <button
-                className="h-12 w-12 rounded-full text-white grid place-items-center"
-                style={{ background: "var(--airbnb-red)" }}
-                aria-label="Search"
-              >
-                🔍
-              </button>
-            </div>
-          </div>
+            <SearchBarClient />
         </div>
       </div>
     </header>
