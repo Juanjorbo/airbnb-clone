@@ -1,3 +1,5 @@
+import { toQueryString } from "@/src/lib/urlFilters";
+
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
@@ -7,10 +9,10 @@ export default function SearchBarClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-    const [city, setCity] = useState("");
-    const [guests, setGuests] = useState("");
-    const [minPrice, setMinPrice] = useState("");
-    const [maxPrice, setMaxPrice] = useState("");
+    const [city, setCity] = useState(sp.get("city") ?? "");
+    const [guests, setGuests] = useState(sp.get("guests") ?? "");
+    const [minPrice, setMinPrice] = useState(sp.get("minPrice") ?? "");
+    const [maxPrice, setMaxPrice] = useState(sp.get("maxPrice") ?? "");
     const [isSearching, setIsSearching] = useState(false);
 
 
