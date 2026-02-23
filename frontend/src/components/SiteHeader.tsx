@@ -18,23 +18,20 @@ export default function SiteHeader() {
             <span className="font-semibold tracking-tight">airbnb</span>
           </div>
 
-          {/* Center: tabs */}
-          <nav className="hidden md:flex items-center gap-10 text-sm font-medium">
-            <a className="flex items-center gap-2 border-b-2 border-black pb-2" href="#">
+          {/* Center: tabs (solo Alojamientos) */}
+          <nav className="hidden md:flex items-center justify-center flex-1">
+            <a
+              className="flex items-center gap-2 border-b-2 border-black pb-2 text-sm font-medium"
+              href="#"
+            >
               🏠 <span>Alojamientos</span>
-            </a>
-            <a className="flex items-center gap-2 text-gray-500 hover:text-black" href="#">
-              🎈 <span>Experiencias</span>
-            </a>
-            <a className="flex items-center gap-2 text-gray-500 hover:text-black" href="#">
-              🧑‍🔧 <span>Servicios</span>
             </a>
           </nav>
 
           {/* Right: actions */}
           <div className="flex items-center gap-3">
             <button className="hidden md:block text-sm font-medium px-3 py-2 rounded-full hover:bg-gray-100">
-              Converteix-te en amfitrió
+              Hazte anfitrión
             </button>
             <button className="h-10 w-10 rounded-full hover:bg-gray-100 grid place-items-center">
               🌐

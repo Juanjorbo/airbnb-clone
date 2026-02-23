@@ -1,7 +1,6 @@
-import { toQueryString } from "@/src/lib/urlFilters";
-
 "use client";
 
+import { toQueryString } from "@/src/lib/urlFilters";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -19,14 +18,14 @@ export default function SearchBarClient() {
 function onSearch() {
   setIsSearching(true);
 
-  const qs = new URLSearchParams();
-  if (city.trim()) qs.set("city", city.trim());
-  if (guests) qs.set("guests", guests);
-  if (minPrice) qs.set("minPrice", minPrice);
-  if (maxPrice) qs.set("maxPrice", maxPrice);
+  const queryString = toQueryString({
+  city,
+  guests,
+  minPrice,
+  maxPrice,
+  });
 
-  const nextUrl = qs.toString() ? `/?${qs.toString()}` : `/`;
-  router.push(nextUrl);
+  router.push(`/${queryString}`);
 
   setTimeout(() => setIsSearching(false), 500);
 }
