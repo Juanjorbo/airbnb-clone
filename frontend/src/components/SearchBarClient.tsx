@@ -7,20 +7,28 @@ export default function SearchBarClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  const [city, setCity] = useState(sp.get("city") ?? "");
-  const [guests, setGuests] = useState(sp.get("guests") ?? "");
-  const [minPrice, setMinPrice] = useState(sp.get("minPrice") ?? "");
-  const [maxPrice, setMaxPrice] = useState(sp.get("maxPrice") ?? "");
+    const [city, setCity] = useState("");
+    const [guests, setGuests] = useState("");
+    const [minPrice, setMinPrice] = useState("");
+    const [maxPrice, setMaxPrice] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
 
-  function onSearch() {
-    const qs = new URLSearchParams();
-    if (city.trim()) qs.set("city", city.trim());
-    if (guests) qs.set("guests", guests);
-    if (minPrice) qs.set("minPrice", minPrice);
-    if (maxPrice) qs.set("maxPrice", maxPrice);
 
-    router.push(`/?${qs.toString()}`);
-  }
+function onSearch() {
+  setIsSearching(true);
+
+  const qs = new URLSearchParams();
+  if (city.trim()) qs.set("city", city.trim());
+  if (guests) qs.set("guests", guests);
+  if (minPrice) qs.set("minPrice", minPrice);
+  if (maxPrice) qs.set("maxPrice", maxPrice);
+
+  const nextUrl = qs.toString() ? `/?${qs.toString()}` : `/`;
+  router.push(nextUrl);
+
+  setTimeout(() => setIsSearching(false), 500);
+}
+
 
   return (
     <div className="w-full max-w-3xl rounded-full border bg-white shadow-md px-6 py-3 flex items-center gap-6">
@@ -28,6 +36,7 @@ export default function SearchBarClient() {
       <div className="flex-1">
         <div className="text-xs font-semibold">Where</div>
         <input
+          autoComplete="off"
           className="w-full text-sm outline-none text-gray-700 placeholder:text-gray-400"
           placeholder="Search destinations"
           value={city}
@@ -74,13 +83,18 @@ export default function SearchBarClient() {
         </div>
 
         <button
-          onClick={onSearch}
-          className="h-12 w-12 rounded-full text-white grid place-items-center"
-          style={{ background: "var(--airbnb-red)" }}
-          aria-label="Search"
+        onClick={onSearch}
+        disabled={isSearching}
+        className={`h-12 w-12 rounded-full text-white grid place-items-center transition
+            ${isSearching ? "opacity-80 scale-95" : "hover:scale-105 active:scale-95"}`}
+        style={{ background: "var(--airbnb-red)" }}
+        aria-label="Search"
         >
-          🔍
+        <span className={isSearching ? "animate-pulse" : ""}>
+            {isSearching ? "…" : "🔍"}
+        </span>
         </button>
+
       </div>
     </div>
   );

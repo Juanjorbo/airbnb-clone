@@ -88,9 +88,12 @@ export default async function Home({
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
   const city = typeof searchParams?.city === "string" ? searchParams.city : "";
-  const guests = typeof searchParams?.guests === "string" ? searchParams.guests : "";
-  const minPrice = typeof searchParams?.minPrice === "string" ? searchParams.minPrice : "";
-  const maxPrice = typeof searchParams?.maxPrice === "string" ? searchParams.maxPrice : "";
+  const guests =
+    typeof searchParams?.guests === "string" ? searchParams.guests : "";
+  const minPrice =
+    typeof searchParams?.minPrice === "string" ? searchParams.minPrice : "";
+  const maxPrice =
+    typeof searchParams?.maxPrice === "string" ? searchParams.maxPrice : "";
   const sort = typeof searchParams?.sort === "string" ? searchParams.sort : "";
 
   const qs = new URLSearchParams();
@@ -102,7 +105,6 @@ export default async function Home({
 
   const url = `/listings${qs.toString() ? `?${qs.toString()}` : ""}`;
   const data = await apiGet<ListingsResponse>(url);
-
 
   return (
     <main className="bg-white">
