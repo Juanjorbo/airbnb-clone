@@ -9,6 +9,7 @@ type ListingItem = {
   city: string;
   pricePerNight: number;
   maxGuests: number;
+  imageUrl: string;
 };
 
 type ListingsResponse = {
@@ -44,7 +45,7 @@ function ListingCard({ l }: { l: ListingItem }) {
     <div className="group cursor-pointer">
       <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/3]">
         <img
-          src={`https://picsum.photos/seed/${l.id}/900/675`}
+          src={l.imageUrl || `https://picsum.photos/seed/${l.id}/900/675`}
           alt={l.title}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />

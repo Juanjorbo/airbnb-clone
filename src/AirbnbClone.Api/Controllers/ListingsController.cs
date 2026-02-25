@@ -75,7 +75,8 @@ public class ListingsController : ControllerBase
                 x.Title,
                 x.City,
                 x.PricePerNight,
-                x.MaxGuests
+                x.MaxGuests,
+                x.ImageUrl 
             })
             .ToListAsync();
 
@@ -150,7 +151,8 @@ public class ListingsController : ControllerBase
                 x.City,
                 x.PricePerNight,
                 x.MaxGuests,
-                x.CreatedAtUtc
+                x.CreatedAtUtc,
+                x.ImageUrl 
             })
             .ToListAsync();
 
@@ -210,7 +212,8 @@ public class ListingsController : ControllerBase
                 x.Title,
                 x.City,
                 x.PricePerNight,
-                x.MaxGuests
+                x.MaxGuests,
+                x.ImageUrl 
             })
             .SingleOrDefaultAsync();
 

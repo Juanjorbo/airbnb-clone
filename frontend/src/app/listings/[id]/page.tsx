@@ -28,7 +28,7 @@ return (
     {/* Image */}
     <div className="rounded-2xl overflow-hidden bg-gray-100 aspect-[16/9]">
       <img
-        src={`https://picsum.photos/seed/${listing.id}/1400/800`}
+        src={listing.imageUrl || `https://picsum.photos/seed/${listing.id}/1400/800`}
         alt={listing.title}
         className="w-full h-full object-cover"
       />

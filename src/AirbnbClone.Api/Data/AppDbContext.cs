@@ -48,6 +48,10 @@ public class AppDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100);
 
+            b.Property(x => x.ImageUrl)
+                .IsRequired()
+                .HasMaxLength(500);
+
             b.Property(x => x.PricePerNight)
                 .IsRequired();
 

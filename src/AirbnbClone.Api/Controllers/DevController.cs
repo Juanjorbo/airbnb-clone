@@ -18,7 +18,6 @@ public class DevController : ControllerBase
         _env = env;
     }
 
-    // Carga lugares fijos de caricaturas (idempotente)
     [HttpPost("seed-cartoon")]
     public async Task<IActionResult> SeedCartoon()
     {
@@ -29,7 +28,7 @@ public class DevController : ControllerBase
 
         var seed = new List<Listing>
         {
-            new() { HostId = hostId, Title = "Piña de Bob Esponja", City = "Fondo de Bikini", PricePerNight = 89, MaxGuests = 2 },
+            new() { HostId = hostId, Title = "Piña de Bob Esponja", City = "Fondo de Bikini", PricePerNight = 89, MaxGuests = 2, ImageUrl = "frontend/public/listings/spongebob.jpg" },
             new() { HostId = hostId, Title = "Casa de Patricio (Roca Deluxe)", City = "Fondo de Bikini", PricePerNight = 59, MaxGuests = 2 },
             new() { HostId = hostId, Title = "Casa Árbol (Hora de Aventuras)", City = "Ooo", PricePerNight = 140, MaxGuests = 4 },
             new() { HostId = hostId, Title = "Castillo de Peach", City = "Reino Champiñón", PricePerNight = 220, MaxGuests = 6 },
@@ -43,7 +42,6 @@ public class DevController : ControllerBase
             new() { HostId = hostId, Title = "Castillo de Hyrule (Zelda)", City = "Hyrule", PricePerNight = 240, MaxGuests = 6 },
         };
 
-        // Idempotente: si ya existe por Title+City, no lo añade
         var existing = await _db.Listings
             .AsNoTracking()
             .Select(x => new { x.Title, x.City })
@@ -69,7 +67,6 @@ public class DevController : ControllerBase
         return Ok(new { message = "Seeded cartoon listings.", added = toAdd.Count });
     }
 
-    // (Opcional) borrar todo para volver a cargar
     [HttpDelete("clear-listings")]
     public async Task<IActionResult> ClearListings()
     {

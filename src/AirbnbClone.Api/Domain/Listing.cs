@@ -15,4 +15,6 @@ public class Listing
     public int MaxGuests { get; set; }
 
     public DateTime CreatedAtUtc { get; set; } = DateTime.UtcNow;
+
+    public string ImageUrl { get; set; } = string.Empty;
 }
