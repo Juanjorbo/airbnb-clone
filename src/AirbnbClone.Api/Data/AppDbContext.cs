@@ -83,5 +83,18 @@ public class AppDbContext : DbContext
             b.HasIndex(x => x.GuestId);
             b.HasIndex(x => new { x.ListingId, x.CheckIn, x.CheckOut });
         });
+        
+        modelBuilder.Entity<Favorite>(b =>
+        {
+            b.ToTable("Favorites");
+
+            b.HasKey(x => x.Id);
+
+            b.Property(x => x.UserId).IsRequired();
+            b.Property(x => x.ListingId).IsRequired();
+            b.Property(x => x.CreatedAtUtc).IsRequired();
+
+            b.HasIndex(x => new { x.UserId, x.ListingId }).IsUnique();
+        });
     }
 }
