@@ -28,7 +28,7 @@ public class DevController : ControllerBase
 
         var seed = new List<Listing>
         {
-            new() { HostId = hostId, Title = "Piña de Bob Esponja", City = "Fondo de Bikini", PricePerNight = 89, MaxGuests = 2, ImageUrl = "frontend/public/listings/spongebob.jpg" },
+            new() { HostId = hostId, Title = "Piña de Bob Esponja", City = "Fondo de Bikini", PricePerNight = 89, MaxGuests = 2, ImageUrl = "/listings/spongebob.jpg" },
             new() { HostId = hostId, Title = "Casa de Patricio (Roca Deluxe)", City = "Fondo de Bikini", PricePerNight = 59, MaxGuests = 2 },
             new() { HostId = hostId, Title = "Casa Árbol (Hora de Aventuras)", City = "Ooo", PricePerNight = 140, MaxGuests = 4 },
             new() { HostId = hostId, Title = "Castillo de Peach", City = "Reino Champiñón", PricePerNight = 220, MaxGuests = 6 },

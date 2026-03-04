@@ -114,6 +114,7 @@ public class ListingsController : ControllerBase
             City = request.City.Trim(),
             PricePerNight = request.PricePerNight,
             MaxGuests = request.MaxGuests,
+            ImageUrl = request.ImageUrl?.Trim() ?? string.Empty,
             CreatedAtUtc = DateTime.UtcNow
         };
 
@@ -126,7 +127,8 @@ public class ListingsController : ControllerBase
             listing.Title,
             listing.City,
             listing.PricePerNight,
-            listing.MaxGuests
+            listing.MaxGuests,
+            listing.ImageUrl
         });
     }
 

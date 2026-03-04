@@ -6,6 +6,7 @@ type Listing = {
   city: string;
   pricePerNight: number;
   maxGuests: number;
+  imageUrl: string;
 };
 
 export default async function ListingPage({
