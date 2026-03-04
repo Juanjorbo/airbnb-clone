@@ -29,17 +29,13 @@ public class DevController : ControllerBase
         var seed = new List<Listing>
         {
             new() { HostId = hostId, Title = "Piña de Bob Esponja", City = "Fondo de Bikini", PricePerNight = 89, MaxGuests = 2, ImageUrl = "/listings/spongebob.jpg" },
-            new() { HostId = hostId, Title = "Casa de Patricio (Roca Deluxe)", City = "Fondo de Bikini", PricePerNight = 59, MaxGuests = 2 },
-            new() { HostId = hostId, Title = "Casa Árbol (Hora de Aventuras)", City = "Ooo", PricePerNight = 140, MaxGuests = 4 },
-            new() { HostId = hostId, Title = "Castillo de Peach", City = "Reino Champiñón", PricePerNight = 220, MaxGuests = 6 },
-            new() { HostId = hostId, Title = "Mansión de Scooby-Doo", City = "Crystal Cove", PricePerNight = 175, MaxGuests = 6 },
-            new() { HostId = hostId, Title = "Dojo Tortugas Ninja (Alcantarillas)", City = "New York", PricePerNight = 110, MaxGuests = 5 },
-            new() { HostId = hostId, Title = "Casa de los Simpson", City = "Springfield", PricePerNight = 95, MaxGuests = 5 },
-            new() { HostId = hostId, Title = "Casa de Coraje", City = "Nowhere", PricePerNight = 80, MaxGuests = 3 },
-            new() { HostId = hostId, Title = "Laboratorio de Dexter (Habitación secreta)", City = "Dexter’s Lab", PricePerNight = 160, MaxGuests = 2 },
-            new() { HostId = hostId, Title = "Planet Express (Futurama)", City = "Nueva Nueva York", PricePerNight = 190, MaxGuests = 4 },
-            new() { HostId = hostId, Title = "Casa de Gumball", City = "Elmore", PricePerNight = 85, MaxGuests = 5 },
-            new() { HostId = hostId, Title = "Castillo de Hyrule (Zelda)", City = "Hyrule", PricePerNight = 240, MaxGuests = 6 },
+            new() { HostId = hostId, Title = "Casa Árbol (Hora de Aventuras)", City = "Ooo", PricePerNight = 140, MaxGuests = 4, ImageUrl = "/listings/CasaDelArbol.jpg" },
+            new() { HostId = hostId, Title = "Mansión de Scooby-Doo", City = "Crystal Cove", PricePerNight = 175, MaxGuests = 6, ImageUrl = "/listings/MansionScobyDoo.jpg" },
+            new() { HostId = hostId, Title = "Casa de los Simpson", City = "Springfield", PricePerNight = 95, MaxGuests = 5, ImageUrl = "/listings/CasaDeLosSimpsons.jpg" },
+            new() { HostId = hostId, Title = "Casa de Coraje", City = "Nowhere", PricePerNight = 80, MaxGuests = 3, ImageUrl = "/listings/CasaDeCoraje.jpg" },
+            new() { HostId = hostId, Title = "Laboratorio de Dexter (Habitación secreta)", City = "Dexter’s Lab", PricePerNight = 160, MaxGuests = 2, ImageUrl = "/listings/LaboratorioDeDexter.jpg" },
+            new() { HostId = hostId, Title = "Planet Express (Futurama)", City = "Nueva Nueva York", PricePerNight = 190, MaxGuests = 4, ImageUrl = "/listings/PlanetExpress.jpg" },
+            new() { HostId = hostId, Title = "Casa de Gumball", City = "Elmore", PricePerNight = 85, MaxGuests = 5, ImageUrl = "/listings/CasaDeGumball.jpg" },
         };
 
         var existing = await _db.Listings
